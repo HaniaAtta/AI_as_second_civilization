@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="css/menu.css">
+  <title>Start Menu</title>
+
+</head>
+<body>
+  <div class="menu" id="menu">
+    <div class="menu-item start" onclick="showNodeMap()">START</div>
+    <div class="menu-item options">OPTIONS</div>
+    <div class="menu-item credits">CREDITS</div>
+    <div class="menu-item exit">EXIT</div>
+  </div>
+
+  <div id="node-map">
+    <svg class="circuit" viewBox="0 0 1280 720" preserveAspectRatio="none">
+      <!-- Lines -->
+      <path class="line" d="M0,80 H800 L850,120 H1150" />
+      <path class="line" d="M0,130 H750 L800,170 H1100" />
+      <path class="line" d="M0,180 H700 L750,220 H1050" />
+      <path class="line" d="M0,230 H650 L700,270 H1000" />
+      <path class="line" d="M0,280 H600 L650,320 H950" />
+      <path class="line" d="M0,330 H550 L600,370 H900" />
+      <path class="line" d="M0,380 H500 L550,420 H850" />
+      <path class="line" d="M0,430 H450 L500,470 H800" />
+      <path class="line" d="M0,480 H400 L450,520 H750" />
+      <path class="line" d="M0,530 H350 L400,570 H700" />
+
+      <!-- Nodes with labels -->
+   <a href="Node_A.html">  <g class="node-group"><circle class="node" cx="1150" cy="120" r="6" /><text class="label" x="1150" y="105">Node A</text></g> </a> 
+      <g class="node-group"><circle class="node" cx="1100" cy="170" r="6" /><text class="label" x="1100" y="155">Node B</text></g>
+      <g class="node-group"><circle class="node" cx="1050" cy="220" r="6" /><text class="label" x="1050" y="205">Node C</text></g>
+      <g class="node-group"><circle class="node" cx="1000" cy="270" r="6" /><text class="label" x="1000" y="255">Node D</text></g>
+      <g class="node-group"><circle class="node" cx="950" cy="320" r="6" /><text class="label" x="950" y="305">Node E</text></g>
+      <g class="node-group"><circle class="node" cx="900" cy="370" r="6" /><text class="label" x="900" y="355">Node F</text></g>
+      <g class="node-group"><circle class="node" cx="850" cy="420" r="6" /><text class="label" x="850" y="405">Node G</text></g>
+      <g class="node-group"><circle class="node" cx="800" cy="470" r="6" /><text class="label" x="800" y="455">Node H</text></g>
+      <g class="node-group"><circle class="node" cx="750" cy="520" r="6" /><text class="label" x="750" y="505">Node I</text></g>
+      <g class="node-group"><circle class="node" cx="700" cy="570" r="6" /><text class="label" x="700" y="555">Node J</text></g>
+    </svg>
+    <button class="back-btn" onclick="goBack()">← </button>
+
+  </div>
+
+  <script>
+    function showNodeMap() {
+      const menu = document.getElementById('menu');
+      const nodeMap = document.getElementById('node-map');
+      menu.style.opacity = '0';
+      setTimeout(() => {
+        menu.style.display = 'none';
+        nodeMap.style.display = 'block';
+      }, 500);
+    }
+    if(localStorage.getItem("fromNodeA") === "true") {
+      document.getElementById("node-map").style.display = 'block';
+      localStorage.removeItem("fromNodeA");  // Remove the flag after using it
+    }
+    function goBack() {
+      const menu = document.getElementById('menu');
+      const nodeMap = document.getElementById('node-map');
+      nodeMap.style.display = 'none';
+      menu.style.display = 'flex';
+      setTimeout(() => {
+        menu.style.opacity = '1';
+      }, 50);
+    }
+  </script>
+</body>
+</html>
