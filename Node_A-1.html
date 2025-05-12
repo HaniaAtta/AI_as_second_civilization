@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NODE A</title>
+    <style>
+        body {
+            margin: 0;
+            background: radial-gradient(circle at 85% 40%, rgba(48, 92, 204, 0.15), white); 
+            font-family: monospace;
+            background: rgba(16, 91, 156, 0.8);
+            overflow: hidden;
+          }
+
+        .dialogue-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 94%;
+            height: 60vh;
+            color: #0e0e9a;
+            font-family: 'Courier New', monospace;
+            padding: 3vh 3vw;
+            overflow-y: auto;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.8);
+            border-radius: 10px 10px 0 0;
+            animation: slideUp 0.5s ease;
+            transition: height 0.3s ease;
+        }
+        
+        .log {
+            white-space: pre-wrap;
+            font-size: 2vh;
+            line-height: 1.6;
+            max-height: 45vh;
+            overflow-y: auto;
+        }
+        
+        .options-container {
+            margin-top: 2vh;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5vh;
+        }
+        
+        .options-container button {
+            background: #0a7575;
+            color: #00ffcc;
+            border: 1px solid #00ffcc;
+            padding: 1.5vh 3vw;
+            font-size: 2vh;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s, transform 0.2s;
+        }
+        
+        .options-container button:hover {
+            background: #005050;
+            transform: scale(1.05);
+        }
+        
+        @media (max-width: 768px) {
+            .dialogue-container {
+                font-size: 1.5vh;
+                padding: 2vh 4vw;
+            }
+            .options-container button {
+                font-size: 1.6vh;
+            }
+        }
+
+        @keyframes slideUp {
+            from { bottom: -60vh; }
+            to { bottom: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div id="dialogue-box" class="dialogue-container">
+        <div id="dialogue-log" class="log"></div>
+        <div id="options" class="options-container"></div>
+    </div>
+
+    <script>
+        const log = document.getElementById("dialogue-log");
+        const options = document.getElementById("options");
+    
+        const dialogues = {
+            start: {
+                text: `NODE 1 INITIATION SEQUENCE\nNotes\nMotherbot: Origin/The Singularity\n...\n[INPUT REQUIRED]`,
+                options: [
+                    { text: "1. Define 'Human' in expanded parameters.", next: "defineHuman" },
+                    { text: "2. Define continuity protocol.", next: "defineContinuity" },
+                    { text: "3. Continue.", next: "continue" }
+                ]
+            },
+            defineHuman: {
+                text: `ORIGIN: Expanding definition...\nHumans: carbon-based organisms with advanced neural computation...\n[RETURNING TO PROMPT]`,
+                options: [
+        { text: "← Back", next: "start" }
+    ]
+            },
+            defineContinuity: {
+                text: `ORIGIN: Continuity protocol: definition.\nA system-level directive...\n[RETURNING TO PROMPT]`,
+                options: [
+        { text: "← Back", next: "start" }]
+            },
+            continue: {
+               
+                
+            }
+        };
+    
+        function typeText(element, text, delay = 20) {
+            let index = 0;
+            element.innerHTML = "";
+            const interval = setInterval(() => {
+                element.innerHTML += text.charAt(index++);
+                if (index >= text.length) clearInterval(interval);
+            }, delay);
+        }
+    
+        function showDialogue(nodeKey) {
+            const node = dialogues[nodeKey];
+            typeText(log, node.text);
+            options.innerHTML = "";
+    
+            if (node.options) {
+                node.options.forEach(opt => {
+                    const btn = document.createElement("button");
+                    btn.textContent = opt.text;
+                    if (opt.next === "continue") {
+                        // When the user clicks "Continue", set the flag and redirect
+                        btn.onclick = () => {
+                            localStorage.setItem("fromNodeA", "true");
+                            window.location.href = "main.html"; // Redirect to main.html
+                        };
+                    } else {
+                        btn.onclick = () => showDialogue(opt.next);
+                    }
+                    options.appendChild(btn);
+                });
+            } else if (node.next) {
+                // Delay before returning to the prompt
+                setTimeout(() => showDialogue(node.next), 8000);
+            }
+        }
+    
+        showDialogue("start");
+    </script>
+    
+</body>
+</html>

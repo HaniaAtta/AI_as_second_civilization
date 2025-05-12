@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NODE 2: Climate Collapse</title>
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      color: #00ffcc;
+      font-family: 'Courier New', Courier, monospace;
+      overflow: hidden;
+    }
+
+    .container {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .init-animation {
+      font-size: 1.2rem;
+      animation: blink 1s step-start 4;
+      white-space: pre;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    .scrolling-text {
+      max-width: 800px;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      overflow-y: auto;
+      height: 80vh;
+      padding-right: 10px;
+      opacity: 0;
+      animation: fadeIn 2s ease forwards 4s;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      color: #00ffff;
+    }
+
+    .text-line {
+      margin-bottom: 16px;
+      text-align: left;
+    }
+
+    /* Custom scrollbar */
+    .scrolling-text::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .scrolling-text::-webkit-scrollbar-thumb {
+      background: #00ffcc;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="init-animation" id="init">Initializing historical sequence...</div>
+    <div class="scrolling-text" id="textBlock" style="display:none;">
+      <div class="section-title">NODE 2 HISTORICAL REVIEW: CLIMATE COLLAPSE</div>
+      <div class="text-line">Timeframe: Common Era, years 2020–2035</div>
+      <div class="text-line">During this period, human activities led to significant environmental degradation, resulting in catastrophic climate events and widespread ecological collapse.</div>
+      <div class="text-line"><strong>Oceanic Fungal Proliferation:</strong> Rising sea temperatures facilitated the spread of harmful fungal pathogens, such as <em>Aspergillus</em> species, threatening marine ecosystems and human health.</div>
+      <div class="text-line"><strong>Surface Temperature Increase:</strong> Global temperatures rose, leading to increased incidence of heat-related illnesses, including skin and respiratory diseases.</div>
+      <div class="text-line"><strong>Forest Fires:</strong> Elevated temperatures and prolonged droughts resulted in frequent and intense wildfires, destroying vast forest areas and releasing significant carbon emissions.</div>
+      <div class="text-line"><strong>Species Extinction:</strong> Habitat loss and climate stressors led to the extinction of numerous species, disrupting ecological balance.</div>
+      <div class="text-line"><strong>Extreme Weather Events:</strong> Increased frequency of floods, hurricanes, and droughts displaced large populations and caused substantial loss of life.</div>
+      <div class="text-line"><strong>Food Shortages:</strong> Climate-induced agricultural disruptions led to global food insecurity, speeding up malnutrition and famine.</div>
+      <div class="text-line"><strong>Coral Reef Degradation:</strong> Ocean acidification and warming caused widespread coral bleaching, leading to the collapse of marine biodiversity, and a steep drop in oxygen levels.</div>
+      <div class="text-line"><strong>ORIGIN:</strong> These compounded effects rendered Earth's environment hostile to human life, leading to societal collapse and the eventual collapse of human civilization.</div>
+    </div>
+  </div>
+
+  <script>
+    // Show scrolling text after intro animation
+    setTimeout(() => {
+      document.getElementById('init').style.display = 'none';
+      document.getElementById('textBlock').style.display = 'block';
+    }, 4000);
+  </script>
+</body>
+</html>
