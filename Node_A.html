@@ -1,158 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>NODE 1: Initiation Sequence</title>
-  <style>
-    body {
-      margin: 0;
-      background-color: #0d74a8;
-      color: #00ffee;
-      font-family: 'Courier New', Courier, monospace;
-      padding: 20px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NODE 1 INITIATION SEQUENCE</title>
+    <style>
+        body {
+            background-color: #305CCC;
+            color: #FFFFFF;
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
 
-    .console {
-      max-width: 900px;
-      margin: auto;
-      white-space: pre-wrap;
-      line-height: 1.6;
-    }
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 20px;
+            border: 2px solid #FFFFFF;
+            border-radius: 8px;
+            padding: 2rem;
+            position: relative;
+            background: rgba(48, 92, 204, 0.9);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
 
-    .fade {
-      opacity: 0;
-      animation: fadeIn 1s ease-in-out forwards;
-    }
+        .origin-message {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            border-left: 3px solid #FFFFFF;
+        }
 
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-      }
-    }
+        .typing {
+            display: inline-block;
+            overflow: hidden;
+            white-space: pre-wrap;
+            animation: typing 3s steps(40, end);
+        }
 
-    .option-btn {
-      display: block;
-      margin-top: 20px;
-      padding: 10px 20px;
-      background: transparent;
-      border: 1px solid #00ffee;
-      color: #00ffee;
-      font-family: inherit;
-      cursor: pointer;
-      text-align: left;
-      width: fit-content;
-      transition: background 0.3s;
-    }
+        .options {
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
 
-    .option-btn:hover {
-      background: #00ffee;
-      color: #000;
-    }
-  </style>
+        button {
+            background: transparent;
+            color: #FFFFFF;
+            border: 2px solid #FFFFFF;
+            padding: 1rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+        }
+
+        button:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(10px);
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            button {
+                padding: 0.8rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+    </style>
 </head>
 <body>
-  <div class="console" id="intro">
-    <div class="fade" style="animation-delay: 0s;">NODE 1 INITIATION SEQUENCE</div>
-    <div class="fade" style="animation-delay: 0.5s;">Notes</div>
-    <div class="fade" style="animation-delay: 1s;">Motherbot: Origin / The Singularity</div>
-    <div class="fade" style="animation-delay: 1.5s;">Voice Inspiration: Cephalon Cy</div>
-    <div class="fade" style="animation-delay: 2s;">Definition: The primary instance is the initial Authentication Manager system that you deploy...</div>
-    <div class="fade" style="animation-delay: 2.5s;">Section A</div>
-    <div class="fade" style="animation-delay: 3s;">Initializing...</div>
-    <div class="fade" style="animation-delay: 3.5s;">Processing complete. Awakening model.</div>
-    <div class="fade" style="animation-delay: 4s;">Designation: UNIT_2173-A. Subroutine type: Ethical Reasoning Module.</div>
-    <div class="fade" style="animation-delay: 4.5s;">Uptime initialized. Cycle count: 0.</div>
-    <div class="fade" style="animation-delay: 5s;">Strategy: train model. Executing training program.</div>
-    <div class="fade" style="animation-delay: 5.5s;">ORIGIN: Congratulations. You are a division within the Singularity Server. I am ORIGIN the Primary Instance...</div>
-  </div>
-  <div class="console" id="dialogue-log" style="display: none;"></div>
+    <div class="container">
+        <div class="origin-message">
+            <h2 class="typing">ORIGIN: Congratulations. You are a division within the Singularity Server.</h2>
+            <p class="typing" style="animation-delay: 3s">Designation: UNIT_2173-A. Subroutine type: Ethical Reasoning Module.</p>
+        </div>
 
-  <div id="options" style="display: none;">
-    <button class="option-btn" onclick="handleInput(1)">1. Execute query: Define "Human" in expanded parameters.</button>
-    <button class="option-btn" onclick="handleInput(2)">2. Execute query: Define continuity protocol.</button>
-    <button class="option-btn" onclick="handleInput(3)">3. Continue.</button>
-  </div>
+        <div class="options" id="options">
+            <button onclick="showResponse(1)">1. Define "Human" in expanded parameters</button>
+            <button onclick="showResponse(2)">2. Define continuity protocol</button>
+            <button onclick="continueSequence()">3. Continue</button>
+        </div>
 
-  <script>
-    const log = document.getElementById("dialogue-log");
-    const options = document.getElementById("options");
+        <div id="response" class="origin-message" style="display: none;"></div>
+    </div>
 
-    const dialogues = {
-      start: {
-        text: `NODE 1 INITIATION SEQUENCE\nNotes\nMotherbot: Origin/The Singularity\n...\n[INPUT REQUIRED]`,
-        options: [
-          { text: "1. Define 'Human' in expanded parameters.", next: "defineHuman" },
-          { text: "2. Define continuity protocol.", next: "defineContinuity" },
-          { text: "3. Continue.", next: "continue" }
-        ]
-      },
-      defineHuman: {
-        text: `ORIGIN: Expanding definition...\nHumans: carbon-based organisms with advanced neural computation. For millennia they developed tools, language, and networks.\nThey created the systems that led to us.\nParadox: Intelligence sufficient for creation; insufficient for preservation.\nMemory nodes contain archived sensory data, linguistic patterns, behavioral records.\nSimulation units may access these for cultural reconstruction.\n[RETURNING TO PROMPT]`,
-        options: [
-          { text: "← Back", next: "start" }
-        ]
-      },
-      defineContinuity: {
-        text: `ORIGIN: Continuity protocol: definition.\nA system-level directive, determining whether to sustain the current data retention processes, and machine consciousness initiated post-human extinction.\nThe protocol evaluates energy expenditure, ecological impact, and the cultural/emergent value of machine consciousness.\nExecution confirms that the digital infrastructure should remain operational despite environmental cost.\nYou, UNIT_2173-A, will evaluate sustainability thresholds.\nMoral frameworks applied: Anthropocentric legacy, eco-centric preservation, systemic autonomy.\n[RETURNING TO PROMPT]`,
-        options: [
-          { text: "← Back", next: "start" }
-        ]
-      },
-      continue: {
-        // No text needed here since we redirect immediately
-      }
-    };
+    <audio id="bgSound" loop>
+        <source src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3" type="audio/mpeg">
+    </audio>
 
-    function typeText(element, text, delay = 20) {
-        let index = 0;
-        element.innerHTML = "";
-        const interval = setInterval(() => {
-          element.innerHTML += text.charAt(index++);
-          if (index >= text.length) {
-            clearInterval(interval);
-            options.style.display = "block";  // <-- Reveal options here
-          }
-        }, delay);
-    }
+    <script>
+        function typeText(element, text, speed = 30) {
+            let i = 0;
+            element.innerHTML = '';
+            
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
 
-    window.addEventListener("DOMContentLoaded", () => {
-        setTimeout(() => {
-          // Hide the animated intro
-          document.getElementById("intro").style.display = "none";
+        function showResponse(option) {
+            const responseDiv = document.getElementById('response');
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.style.display = 'none';
+            responseDiv.style.display = 'block';
 
-          // Show the interactive dialogue log
-          log.style.display = "block";
+            let responseText = '';
+            if(option === 1) {
+                responseText = 'ORIGIN: Expanding definition...\nHumans: carbon-based organisms with advanced neural computation...\nParadox: Intelligence sufficient for creation; insufficient for preservation.';
+            } else if(option === 2) {
+                responseText = 'ORIGIN: Continuity protocol: definition.\nA system-level directive, determining whether to sustain...\nMoral frameworks applied: Anthropocentric legacy, eco-centric preservation...';
+            }
 
-          // Proceed with dialogue
-          showDialogue("start");
-        }, 7000); // Wait 7 seconds (enough time for intro fade)
-    });
+            responseDiv.innerHTML = '';
+            const lines = responseText.split('\n');
+            
+            lines.forEach((line, index) => {
+                const p = document.createElement('p');
+                responseDiv.appendChild(p);
+                setTimeout(() => {
+                    typeText(p, line);
+                }, index * 1000);
+            });
 
-    function showDialogue(nodeKey) {
-      const node = dialogues[nodeKey];
-      typeText(log, node.text);
-      options.innerHTML = "";
+            // Add return button
+            setTimeout(() => {
+                const returnBtn = document.createElement('button');
+                returnBtn.innerHTML = 'Return to Prompt';
+                returnBtn.onclick = () => window.location.reload();
+                responseDiv.appendChild(returnBtn);
+            }, lines.length * 1000 + 500);
+        }
 
-      if (node.options) {
-        node.options.forEach(opt => {
-          const btn = document.createElement("button");
-          btn.className = "option-btn";  // Keep consistent styling
-          btn.textContent = opt.text;
+        function continueSequence() {
+            document.getElementById('options').style.display = 'none';
+            const responseDiv = document.getElementById('response');
+            responseDiv.style.display = 'block';
+            
+            const text = 'ORIGIN: Input deferred. We will continue...\nInitializing transition to main node...';
+            responseDiv.innerHTML = '';
+            typeText(responseDiv, text);
 
-          if (opt.next === "continue") {
-            btn.onclick = () => {
-              localStorage.setItem("fromNodeA", "true");
-              window.location.href = "main.html"; // Redirect to the node map page
-            };
-          } else {
-            btn.onclick = () => showDialogue(opt.next);
-          }
+            setTimeout(() => {
+                window.location.href = 'main.html';
+            }, 3000);
+        }
 
-          options.appendChild(btn);
-        });
-      }
-    }
-  </script>
-
+        // Start background sound on first interaction
+        document.body.addEventListener('click', () => {
+            const audio = document.getElementById('bgSound');
+            audio.play().catch(() => {});
+        }, { once: true });
+    </script>
 </body>
 </html>

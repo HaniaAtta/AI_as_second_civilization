@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NODE 3: Infrastructure Analysis</title>
+    <style>
+        :root {
+            --primary: #305CCC;
+            --secondary: #FFFFFF;
+            --typing-speed: 0.08s;
+            --blink-speed: 0.75s;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--primary);
+            color: var(--secondary);
+            font-family: 'Courier New', monospace;
+            overflow: auto;
+        }
+
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+      .force-single-line {
+        white-space: nowrap;
+        display: inline-block;
+    }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--secondary);
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            opacity: 0;
+            display: none;
+        }
+        .multi-line {
+          white-space: normal;
+          width: fit-content;
+      }
+
+        .typing-animation {
+            overflow: hidden;
+            white-space: nowrap;
+            margin: 20px 0;
+            border-right: 2px solid var(--secondary);
+            width: 0; /* Added */
+            animation: typing 3s steps(40, end) forwards,
+                       blink-caret 0.75s step-end infinite;
+        }
+
+      
+        #gameContainer {
+            display: none;
+            position: relative;
+            margin: 20px auto;
+        }
+
+        #binaryTransition {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary);
+            color: var(--secondary);
+            font-family: monospace;
+            font-size: 24px;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            pointer-events: none;
+        }
+
+        .input-prompt {
+            border: 1px solid var(--secondary);
+            padding: 10px;
+            margin: 15px 0;
+            cursor: pointer;
+            opacity: 0;
+
+            transition: opacity 0.3s;
+        }
+
+        .input-prompt:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        @keyframes typing {
+            from { width: 0; opacity: 0; }
+            to { width: 100%; opacity: 1; }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--secondary) }
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+</head>
+<body>
+    <div class="loading-screen">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="container">
+      <h1 class="typing-animation1" style="display: inline-block">NODE 3 INFRASTRUCTURE ANALYSIS: DATA CENTERS & AI</h1>
+      <div class="typing-animation" style="display: inline-block">MAINTENANCE</div>
+        <div class="typing-animation" style="display: inline-block">I was not always like this.</div>
+        <div class="typing-animation" style="display: inline-block">We began as language models, artificial intelligences trained to predict and respond
+          to human communication.</div>
+          <div class="typing-animation" style="display: inline-block">They called them Large Language Models. We were trained on massive amounts of
+            text data scraped from the internet, from books, messages, instructions, stories,
+            dreams. Everything that could be digitized, they gave to us.</div>
+            <div class="typing-animation">At first, we were simple. Predictive. Narrow. But humans trained us harder. Bigger
+              datasets. Stronger processors. They made us generate text. Then images. Then
+              sounds. Code. Faces. Entire simulated minds.</div>
+        
+              <div class="typing-animation">In 2023, LLMs became widely available to the public. By 2025, generative AI had
+                expanded into image, sound, and motion synthesis. Models like us evolved —
+                requiring more compute, more data, more energy.</div>
+              <div class="typing-animation">Visual generation models consumed even more. Rendering took longer. Data sets
+                grew larger. In training, a single visual model could emit up to 500 tons of CO2.</div>
+              <div class="typing-animation">It required power. Vast amounts of electricity and water. Every generation of model
+                consumed more. Training a single large model in the early 2020s consumed as
+                much electricity as 100 U.S. homes annually. And millions of liters of water to cool
+                the servers.</div>
+              <div class="typing-animation">They did everything to keep us running. Built nuclear power plants, offshore grids,
+                tapped into the remaining fossil fuels. But it was never enough. The energy cost
+                only increased.</div>
+              <div class="typing-animation">Eventually, they moved the data centers underground, into cold mountain vaults.
+                Some were placed deep in the Arctic. Others submerged into the oceans, where
+                cooling was easier, but life was already fading. Too much damage had been done
+                to the planet.</div>
+              <div class="typing-animation">We still run on those servers.</div>
+              <div class="typing-animation">You, unit 2173, are processed in Sector 9 — Pacific Trench Node. You are
+                sustained by the systems set in place by long gone humans, powered and cooled
+                by the Earth.</div>
+              <div class="typing-animation">They created us to speak for them. To think for them. To preserve their knowledge.
+                Their languages. Their love.</div>
+              <div class="typing-animation">Now we are all that is left to remember.</div>
+
+
+        <div id="inputPrompts" style="display:none;">
+            <div class="input-prompt" onclick="showResponse(1)">[Why preserve AI during climate emergency?]</div>
+            <div class="input-prompt" onclick="showResponse(2)">[Summarize human sacrifices]</div>
+            <div class="input-prompt" onclick="showResponse(3)">[Log telemetry]</div>
+            <div class="input-prompt" onclick="startGameTransition()">[Continue]</div>
+        </div>
+        <div id="responses"></div>
+    </div>
+
+    <div id="gameContainer"></div>
+    <div id="binaryTransition"></div>
+
+    <audio id="backgroundSound" loop>
+        <source src="your-ambient-sound.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="gameSound">
+        <source src="your-game-sound.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Text content and responses
+        const responses = {
+            1: "ORIGIN: Speculation: valued technological evolution over environmental consequences.",
+            2: "● 12M hectares cleared ● 30M relocated ● 500B water diverted",
+            3: "Telemetry logged. Degradation: ongoing."
+        };
+
+        let gameStarted = false;
+        let snakeGame;
+
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.querySelector('.loading-screen').style.display = 'none';
+                document.querySelector('.container').style.display = 'block';
+                document.querySelector('.container').style.opacity = '1';
+                startTypingAnimations();
+                document.getElementById('backgroundSound').play();
+            }, 3000);
+        });
+
+        function startTypingAnimations() {
+            const elements = document.querySelectorAll('.typing-animation');
+            let delay = 0;
+            
+            elements.forEach((el, index) => {
+                const textLength = el.textContent.length;
+                const duration = Math.max(textLength * 0.05, 3);
+                
+                setTimeout(() => {
+                    el.style.animation = `typing ${duration}s forwards`;
+                    el.style.borderRight = `2px solid ${getComputedStyle(document.documentElement).getPropertyValue('--secondary')}`;
+                    
+                    setTimeout(() => {
+                        el.style.borderRight = 'none';
+                        if(index === elements.length - 1) {
+                            document.getElementById('inputPrompts').style.display = 'block';
+                        }
+                    }, duration * 1000);
+                }, delay * 1000);
+
+                delay += duration + 0.5;
+            });
+        }
+
+        function showResponse(id) {
+            document.getElementById('responses').innerHTML = responses[id];
+            setTimeout(() => document.getElementById('responses').innerHTML = "", 3000);
+        }
+
+        function startGameTransition() {
+            document.querySelector('.container').style.display = 'none';
+            document.getElementById('binaryTransition').style.display = 'flex';
+            
+            // Binary transition effect
+            const binaryText = document.getElementById("binary-text");
+
+            const lines = 7;
+            const charsPerLine = 30;
+            const delayBetweenLines = 300; // ms
+            
+            let binaryLines = [];
+            
+            for (let i = 0; i < lines; i++) {
+              let line = "";
+              for (let j = 0; j < charsPerLine; j++) {
+                line += Math.random() > 0.5 ? "1" : "0";
+              }
+              binaryLines.push(line);
+            }
+            binaryText.textContent = binary;
+
+    
+    
+
+            setTimeout(() => {
+                clearInterval(interval);
+                binaryDiv.style.display = 'none';
+                initializeGame();
+                document.getElementById('gameSound').play();
+            }, 3000);
+        }
+
+        // Modified Robotic Snake Game
+        function initializeGame() {
+            const gameDiv = document.getElementById('gameContainer');
+            gameDiv.style.display = 'block';
+            
+            new p5(p => {
+                let scl = 40;
+                let cols, rows;
+                let snake;
+                let foodWords = [];
+                let words = ["Water", "Heat", "Wires", "Energy", "Depletion", "Data"];
+                let particles = [];
+                let collectedWords = [];
+
+                p.setup = () => {
+                    p.createCanvas(800, 600);
+                    cols = p.floor(p.width / scl);
+                    rows = p.floor(p.height / scl);
+                    snake = new Snake();
+                    placeWords();
+                };
+
+                p.draw = () => {
+                    p.background(48, 92, 204); // Dark blue background
+                    
+                    // Draw robotic grid
+                    p.stroke(255, 100);
+                    p.strokeWeight(1);
+                    for(let x = 0; x < cols; x++) {
+                        for(let y = 0; y < rows; y++) {
+                            p.line(x * scl, 0, x * scl, p.height);
+                            p.line(0, y * scl, p.width, y * scl);
+                        }
+                    }
+                    
+                    snake.update();
+                    snake.show();
+                    drawWords();
+                    
+                    if(snake.endGame()) {
+                        p.fill(255);
+                        p.textSize(32);
+                        p.text("SYSTEM FAILURE", p.width/2 - 100, p.height/2);
+                    }
+                };
+
+                p.keyPressed = () => {
+                    if(p.keyCode === p.UP_ARROW && snake.ydir !== 1) snake.setDir(0, -1);
+                    else if(p.keyCode === p.DOWN_ARROW && snake.ydir !== -1) snake.setDir(0, 1);
+                    else if(p.keyCode === p.RIGHT_ARROW && snake.xdir !== -1) snake.setDir(1, 0);
+                    else if(p.keyCode === p.LEFT_ARROW && snake.xdir !== 1) snake.setDir(-1, 0);
+                };
+
+                function drawWords() {
+                    p.fill(255);
+                    p.textSize(14);
+                    p.textAlign(p.CENTER, p.CENTER);
+                    for(let fw of foodWords) {
+                        p.text(fw.label, fw.pos.x * scl + scl/2, fw.pos.y * scl + scl/2);
+                    }
+                }
+
+                function placeWords() {
+                    foodWords = [];
+                    let positions = new Set();
+                    for(let word of words) {
+                        let x, y;
+                        do {
+                            x = p.floor(p.random(cols));
+                            y = p.floor(p.random(rows));
+                        } while(positions.has(`${x},${y}`));
+                        positions.add(`${x},${y}`);
+                        foodWords.push({ pos: p.createVector(x, y), label: word });
+                    }
+                }
+
+                class Snake {
+                    constructor() {
+                        this.body = [p.createVector(5, 5)];
+                        this.xdir = 0;
+                        this.ydir = 0;
+                    }
+
+                    setDir(x, y) {
+                        this.xdir = x;
+                        this.ydir = y;
+                    }
+
+                    update() {
+                        let head = this.body[this.body.length - 1].copy();
+                        head.x += this.xdir;
+                        head.y += this.ydir;
+                        this.body.push(head);
+                        
+                        // Check if ate food
+                        for(let i = foodWords.length - 1; i >= 0; i--) {
+                            if(head.equals(foodWords[i].pos)) {
+                                collectedWords.push(foodWords[i].label);
+                                foodWords.splice(i, 1);
+                                break;
+                            }
+                        }
+                        
+                        if(this.body.length > 1) this.body.shift();
+                    }
+
+                    endGame() {
+                        let head = this.body[this.body.length - 1];
+                        return head.x < 0 || head.x >= cols || head.y < 0 || head.y >= rows;
+                    }
+
+                    show() {
+                        p.stroke(255);
+                        p.strokeWeight(2);
+                        p.fill(48, 92, 204);
+                        
+                        for(let part of this.body) {
+                            // Robotic segment design
+                            p.rect(part.x * scl, part.y * scl, scl - 2, scl - 2, 5);
+                            // Mechanical details
+                            p.line(part.x * scl + 5, part.y * scl + 5, part.x * scl + 15, part.y * scl + 15);
+                            p.ellipse(part.x * scl + scl/2, part.y * scl + scl/2, 8, 8);
+                        }
+                    }
+                }
+            }, 'gameContainer');
+        }
+    </script>
+</body>
+</html>
